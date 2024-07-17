@@ -26,3 +26,35 @@ const Interceptor = {
 };
 common_vendor.index.addInterceptor("request", Interceptor);
 common_vendor.index.addInterceptor("uploadFile", Interceptor);
+const memberStore = stores_modules_member.useMemberStore();
+const http = (options) => {
+  return new Promise((resolve, reject) => {
+    common_vendor.index.request({
+      ...options,
+      success(res) {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve(res.data);
+        } else if (res.statusCode === 401) {
+          memberStore.clearProfile();
+          common_vendor.index.navigateTo({
+            url: "/pages/login/login"
+          });
+          reject(res);
+        } else {
+          common_vendor.index.showToast({
+            icon: "none",
+            text: res.data.msg || "请求失败"
+          });
+        }
+      },
+      fail(err) {
+        common_vendor.index.showToast({
+          icon: "none",
+          text: "网络错误"
+        });
+        reject(err);
+      }
+    });
+  });
+};
+exports.http = http;

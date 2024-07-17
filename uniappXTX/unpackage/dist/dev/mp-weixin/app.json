@@ -3,7 +3,8 @@
     "pages/home/home",
     "pages/classify/classify",
     "pages/cart/cart",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/login/login"
   ],
   "window": {
     "navigationBarTextStyle": "black",

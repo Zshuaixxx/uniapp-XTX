@@ -3,14 +3,18 @@ const common_vendor = require("../../common/vendor.js");
 const useMemberStore = common_vendor.defineStore(
   "member",
   () => {
-    const profile = common_vendor.ref();
+    const profile = common_vendor.ref({
+      nikename: "youke"
+    });
     const setProfile = (val) => {
       console.log("开始添加:" + val);
       profile.value = val;
     };
     const clearProfile = () => {
       console.log("删除");
-      profile.value = void 0;
+      profile.value = {
+        nikename: "youke"
+      };
     };
     return {
       profile,

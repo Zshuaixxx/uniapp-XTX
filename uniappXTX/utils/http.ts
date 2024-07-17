@@ -2,6 +2,7 @@ import { useMemberStore } from "../stores"
 
 const baseURL='https://pcapi-xiaotuxian-front-devtest.itheima.net'
 
+//请求拦截器
 const Interceptor={
 	invoke(options:UniApp.RequestOptions){
 		console.log('拦截器',options)
@@ -24,3 +25,41 @@ const Interceptor={
 }
 uni.addInterceptor('request',Interceptor)
 uni.addInterceptor('uploadFile',Interceptor)
+
+//响应拦截器
+interface resdata<T>{
+	code:string,
+	msg:string,
+	result:T
+}
+const memberStore=useMemberStore()
+export const http =<T>(options:UniApp.RequestOptions)=>{
+	return new Promise<resdata<T>>((resolve,reject)=>{
+		uni.request({
+			...options,
+			success(res){
+				if(res.statusCode>=200 && res.statusCode<300){
+					resolve(res.data as resdata<T>)
+				}else if(res.statusCode === 401){
+					memberStore.clearProfile()
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+					reject(res)
+				}else{
+					uni.showToast({
+						icon:'none',
+						text:(res.data as resdata<T>).msg || '请求失败'
+					})
+				}
+			},
+			fail(err){
+				uni.showToast({
+					icon:'none',
+					text:'网络错误'
+				})
+				reject(err)
+			}
+		})
+	})
+}

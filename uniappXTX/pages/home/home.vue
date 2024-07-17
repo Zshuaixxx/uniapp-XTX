@@ -1,21 +1,4 @@
 <template>
-	<template>
-		<view>
-			<uni-section title="基本用法" type="line" padding>
-				<uni-steps :options="list1" :active="active" />
-			</uni-section>
-			<uni-section title="自定义图标" type="line" padding>
-				<uni-steps :options="list1" active-icon="checkbox" :active="active" />
-			</uni-section>
-			<uni-section title="自定义图标" type="line" padding>
-				<uni-steps :options="list1" active-icon="medal" :active="active" />
-			</uni-section>
-			<uni-section title="纵向排列" type="line" padding>
-				<uni-steps :options="list2" active-color="#007AFF" :active="active" direction="column" />
-			</uni-section>
-			<button type="primary" size="mini" style="margin: 30px 10px; width: 100px;" @click="change">改变状态</button>
-		</view>
-	</template>
 	<uni-section class="mb-10" title="基础用法" sub-title="副标题"></uni-section>
 	
 	<uni-section class="mb-10" title="竖线装饰" sub-title="副标题" type="line"></uni-section>
@@ -50,16 +33,17 @@
 	</template>
 </template>
 
-<script setup>
+<script setup lang="ts">
 	import { useMemberStore } from '../../stores';
-	import '../../utils/http'
+	import {http} from '../../utils/http'
 	const memberStore=useMemberStore()
-	const re=()=>{
+	const re=async()=>{
 		console.log('发送请求')
-		uni.request({
+		const res = await http<any>({
 			method:'GET',
-			url:"/home/goods/guessLike"
+			url:"/category/top"
 		})
+		console.log('返回',res)
 	}
 </script>
 

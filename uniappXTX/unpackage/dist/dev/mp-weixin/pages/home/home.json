@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "首页",
   "usingComponents": {
-    "uni-steps": "../../uni_modules/uni-steps/components/uni-steps/uni-steps",
     "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section",
     "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card"
   }

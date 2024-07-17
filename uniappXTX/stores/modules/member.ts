@@ -6,7 +6,9 @@ export const useMemberStore = defineStore(
   'member',
   () => {
     // 会员信息
-    const profile = ref<any>()
+    const profile = ref<any>({
+		nikename:'youke'
+	})
 
     // 保存会员信息，登录时使用
     const setProfile = (val: any) => {
@@ -17,7 +19,9 @@ export const useMemberStore = defineStore(
     // 清理会员信息，退出时使用
     const clearProfile = () => {
 	  console.log('删除')
-      profile.value = undefined
+      profile.value = {
+		  nikename:'youke'
+	  }
     }
 
     // 记得 return

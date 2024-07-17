@@ -7,6 +7,7 @@ if (!Math) {
   "./pages/classify/classify.js";
   "./pages/cart/cart.js";
   "./pages/my/my.js";
+  "./pages/login/login.js";
 }
 const _sfc_main = {
   onLaunch: function() {
