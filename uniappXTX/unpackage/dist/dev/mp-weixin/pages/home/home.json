@@ -3,6 +3,7 @@
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "首页",
   "usingComponents": {
-    "custom-navbar": "./components/CustomNavbar"
+    "custom-navbar": "./components/CustomNavbar",
+    "xtx-swiper": "../../components/XtxSwiper"
   }
 }
