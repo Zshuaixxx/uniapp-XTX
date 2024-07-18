@@ -1,4 +1,5 @@
-import { BannerItem, CategoryItem, GuessItem, HotItem } from "../types/home"
+import { GuessItem } from "../types/globe"
+import { BannerItem, CategoryItem,  HotItem, nowpage } from "../types/home"
 import { http } from "../utils/http"
 
 ///home/banner 请求轮播图数据
@@ -33,7 +34,7 @@ export const getHomeGoodsGuessLikeService=(
 	page=1,
 	pageSize=10
 )=>{
-	return http<GuessItem>({
+	return http<GuessItem<nowpage>>({
 		method:'GET',
 		url:'/home/goods/guessLike',
 		data:{

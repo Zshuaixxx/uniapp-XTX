@@ -35,6 +35,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       console.log("首页获取热门推荐数据接口返回:", res);
       HotList.value = res.result;
     };
+    const GuessRef = common_vendor.ref();
+    const freshGuess = () => {
+      var _a;
+      console.log("下拉刷新");
+      GuessRef.value.Homepage++;
+      (_a = GuessRef.value) == null ? void 0 : _a.getGuessList(GuessRef.value.Homepage, GuessRef.value.HomepageSize);
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
@@ -46,9 +53,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         c: common_vendor.p({
           list: HotList.value
         }),
-        d: common_vendor.p({
-          obj: _ctx.GuessList
-        })
+        d: common_vendor.sr(GuessRef, "432f47ff-4", {
+          "k": "GuessRef"
+        }),
+        e: common_vendor.o(($event) => freshGuess())
       };
     };
   }

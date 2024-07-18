@@ -13,7 +13,6 @@
 		getBannerList()
 		getCategoryList()
 		getHotList()
-
 	})
 	
 	//轮播图数据
@@ -40,25 +39,46 @@
 		HotList.value=res.result
 	}
 	
-
+	//猜你喜欢组件实例
+	const GuessRef=ref<InstanceType<typeof XtxGuess>>()
+	const freshGuess=()=>{
+		console.log('下拉刷新')
+		GuessRef.value.Homepage++;
+		GuessRef.value?.getGuessList(GuessRef.value.Homepage,GuessRef.value.HomepageSize)
+	}
+	
 </script>
 
 <template>
 	<!-- 导航栏 -->
-	<CustomNavbar></CustomNavbar>
-	<!-- 轮播图 -->
-	<XtxSwiper :list="BannerList"></XtxSwiper>
-	<!-- 分类 -->
-	<CategoryPnael :list="CategoryList"></CategoryPnael>
-	<!-- 热门推荐 -->
-	<HotPanel :list="HotList"></HotPanel>
-	<!-- 猜你喜欢 -->
-	<XtxGuess :obj="GuessList"></XtxGuess>
+	<CustomNavbar class="navbar"></CustomNavbar>
+	<scroll-view class="scroll-view" scroll-y @scrolltolower="freshGuess()">
+		<!-- 轮播图 -->
+		<XtxSwiper :list="BannerList"></XtxSwiper>
+		<!-- 分类 -->
+		<CategoryPnael :list="CategoryList"></CategoryPnael>
+		<!-- 热门推荐 -->
+		<HotPanel :list="HotList"></HotPanel>
+		<!-- 猜你喜欢 -->
+		<XtxGuess ref="GuessRef"></XtxGuess>
+	</scroll-view>
 </template>
 
 
 <style>
 	page{
+		height: 100%;
 		background-color: #f7f7f7;
+		display: flex;
+		flex-direction: column;
+	}
+	.navbar{
+		position: sticky;
+		top: 0;
+		z-index: 999;
+	}
+	.scroll-view{
+		height: 0;
+		flex: 1;
 	}
 </style>

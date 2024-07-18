@@ -8,14 +8,41 @@
 	  getGuessList()
   })
   //猜你喜欢数据
+  const finsh=ref(false)
   const Homepage=ref(1)
   const HomepageSize=ref(10)
-  const GuessList=ref<GuessItem<nowpage>>()
+  const GuessList=ref<GuessItem<nowpage>>({
+	  counts:10,
+	  pageSize:10,
+	  pages:1,
+	  page:34,
+	  items:[]
+  })
   const getGuessList=async(page=Homepage.value,pageSize=HomepageSize.value)=>{
+	  if(finsh.value){
+		  return uni.showToast({
+			title:'没有更多数据了',
+			icon:'none'
+		})
+	  }
   	const res=await getHomeGoodsGuessLikeService(page,pageSize)
   	console.log('首页获取猜你喜欢数据接口返回：',res)
-  	GuessList.value=res.result
+  	if(res.result.items.length===0){
+		finsh.value=true
+		uni.showToast({
+			title:'没有更多数据了',
+			icon:'none'
+		})
+	}else{
+		GuessList.value.items.push(...res.result.items)
+		console.log('猜你喜欢数组赋值后：',GuessList.value.items)
+	}
   }
+  defineExpose({
+  	  getGuessList,
+	  Homepage,
+	  HomepageSize
+  })
 </script>
 
 <template>
@@ -42,7 +69,7 @@
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <view class="loading-text"> {{finsh?'人家也是有底线的':'正在加载... '}}</view>
 </template>
 
 <style lang="scss">
