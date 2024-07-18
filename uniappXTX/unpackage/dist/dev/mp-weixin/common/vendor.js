@@ -92,63 +92,12 @@ const def = (obj, key, value) => {
   });
 };
 const looseToNumber = (val) => {
-  const n2 = parseFloat(val);
-  return isNaN(n2) ? val : n2;
+  const n = parseFloat(val);
+  return isNaN(n) ? val : n;
 };
 let _globalThis;
 const getGlobalThis = () => {
   return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
-};
-function normalizeClass(value) {
-  let res = "";
-  if (isString(value)) {
-    res = value;
-  } else if (isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      const normalized = normalizeClass(value[i]);
-      if (normalized) {
-        res += normalized + " ";
-      }
-    }
-  } else if (isObject$1(value)) {
-    for (const name in value) {
-      if (value[name]) {
-        res += name + " ";
-      }
-    }
-  }
-  return res.trim();
-}
-const toDisplayString = (val) => {
-  return isString(val) ? val : val == null ? "" : isArray(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
-};
-const replacer = (_key, val) => {
-  if (val && val.__v_isRef) {
-    return replacer(_key, val.value);
-  } else if (isMap(val)) {
-    return {
-      [`Map(${val.size})`]: [...val.entries()].reduce(
-        (entries, [key, val2], i) => {
-          entries[stringifySymbol(key, i) + " =>"] = val2;
-          return entries;
-        },
-        {}
-      )
-    };
-  } else if (isSet(val)) {
-    return {
-      [`Set(${val.size})`]: [...val.values()].map((v) => stringifySymbol(v))
-    };
-  } else if (isSymbol(val)) {
-    return stringifySymbol(val);
-  } else if (isObject$1(val) && !isArray(val) && !isPlainObject$1(val)) {
-    return String(val);
-  }
-  return val;
-};
-const stringifySymbol = (v, i = "") => {
-  var _a;
-  return isSymbol(v) ? `Symbol(${(_a = v.description) != null ? _a : i})` : v;
 };
 const SLOT_DEFAULT_NAME = "d";
 const ON_SHOW = "onShow";
@@ -335,8 +284,8 @@ const E = function() {
 };
 E.prototype = {
   on: function(name, callback, ctx) {
-    var e2 = this.e || (this.e = {});
-    (e2[name] || (e2[name] = [])).push({
+    var e = this.e || (this.e = {});
+    (e[name] || (e[name] = [])).push({
       fn: callback,
       ctx
     });
@@ -362,8 +311,8 @@ E.prototype = {
     return this;
   },
   off: function(name, callback) {
-    var e2 = this.e || (this.e = {});
-    var evts = e2[name];
+    var e = this.e || (this.e = {});
+    var evts = e[name];
     var liveEvents = [];
     if (evts && callback) {
       for (var i = evts.length - 1; i >= 0; i--) {
@@ -374,7 +323,7 @@ E.prototype = {
       }
       liveEvents = evts;
     }
-    liveEvents.length ? e2[name] = liveEvents : delete e2[name];
+    liveEvents.length ? e[name] = liveEvents : delete e[name];
     return this;
   }
 };
@@ -491,9 +440,9 @@ function assertType$1(value, type) {
   let valid;
   const expectedType = getType$1(type);
   if (isSimpleType$1(expectedType)) {
-    const t2 = typeof value;
-    valid = t2 === expectedType.toLowerCase();
-    if (!valid && t2 === "object") {
+    const t = typeof value;
+    valid = t === expectedType.toLowerCase();
+    if (!valid && t === "object") {
       valid = value instanceof type;
     }
   } else if (expectedType === "Object") {
@@ -549,8 +498,8 @@ function tryCatch(fn) {
   return function() {
     try {
       return fn.apply(fn, arguments);
-    } catch (e2) {
-      console.error(e2);
+    } catch (e) {
+      console.error(e);
     }
   };
 }
@@ -732,8 +681,8 @@ function promisify$1(name, fn) {
     if (hasCallback(args)) {
       return wrapperReturnValue(name, invokeApi(name, fn, args, rest));
     }
-    return wrapperReturnValue(name, handlePromise(new Promise((resolve2, reject) => {
-      invokeApi(name, fn, extend(args, { success: resolve2, fail: reject }), rest);
+    return wrapperReturnValue(name, handlePromise(new Promise((resolve, reject) => {
+      invokeApi(name, fn, extend(args, { success: resolve, fail: reject }), rest);
     })));
   };
 }
@@ -980,7 +929,7 @@ const $off = defineSyncApi(API_OFF, (name, callback) => {
   }
   if (!isArray(name))
     name = [name];
-  name.forEach((n2) => emitter.off(n2, callback));
+  name.forEach((n) => emitter.off(n, callback));
 }, OffProtocol);
 const $emit = defineSyncApi(API_EMIT, (name, ...args) => {
   emitter.emit(name, ...args);
@@ -991,7 +940,7 @@ let enabled;
 function normalizePushMessage(message) {
   try {
     return JSON.parse(message);
-  } catch (e2) {
+  } catch (e) {
   }
   return message;
 }
@@ -1031,7 +980,7 @@ function invokeGetPushCidCallbacks(cid2, errMsg) {
   getPushCidCallbacks.length = 0;
 }
 const API_GET_PUSH_CLIENT_ID = "getPushClientId";
-const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve: resolve2, reject }) => {
+const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve, reject }) => {
   Promise.resolve().then(() => {
     if (typeof enabled === "undefined") {
       enabled = false;
@@ -1040,7 +989,7 @@ const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve: re
     }
     getPushCidCallbacks.push((cid2, errMsg) => {
       if (cid2) {
-        resolve2({ cid: cid2 });
+        resolve({ cid: cid2 });
       } else {
         reject(errMsg);
       }
@@ -1105,9 +1054,9 @@ function promisify(name, api) {
     if (isFunction(options.success) || isFunction(options.fail) || isFunction(options.complete)) {
       return wrapperReturnValue(name, invokeApi(name, api, options, rest));
     }
-    return wrapperReturnValue(name, handlePromise(new Promise((resolve2, reject) => {
+    return wrapperReturnValue(name, handlePromise(new Promise((resolve, reject) => {
       invokeApi(name, api, extend({}, options, {
-        success: resolve2,
+        success: resolve,
         fail: reject
       }), rest);
     })));
@@ -3829,47 +3778,6 @@ function setCurrentRenderingInstance(instance) {
   instance && instance.type.__scopeId || null;
   return prev;
 }
-const COMPONENTS = "components";
-function resolveComponent(name, maybeSelfReference) {
-  return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
-}
-function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false) {
-  const instance = currentRenderingInstance || currentInstance;
-  if (instance) {
-    const Component2 = instance.type;
-    if (type === COMPONENTS) {
-      const selfName = getComponentName(
-        Component2,
-        false
-      );
-      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
-        return Component2;
-      }
-    }
-    const res = (
-      // local registration
-      // check instance[type] first which is resolved for options API
-      resolve(instance[type] || Component2[type], name) || // global registration
-      resolve(instance.appContext[type], name)
-    );
-    if (!res && maybeSelfReference) {
-      return Component2;
-    }
-    if (warnMissing && !res) {
-      const extra = type === COMPONENTS ? `
-If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement.` : ``;
-      warn$1(`Failed to resolve ${type.slice(0, -1)}: ${name}${extra}`);
-    }
-    return res;
-  } else {
-    warn$1(
-      `resolve${capitalize(type.slice(0, -1))} can only be used in render() or setup().`
-    );
-  }
-}
-function resolve(registry, name) {
-  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
-}
 const INITIAL_WATCHER_VALUE = {};
 function watch(source, cb, options) {
   if (!isFunction(cb)) {
@@ -5489,12 +5397,6 @@ const Static = Symbol.for("v-stc");
 function isVNode(value) {
   return value ? value.__v_isVNode === true : false;
 }
-const InternalObjectKey = `__vInternal`;
-function guardReactiveProps(props) {
-  if (!props)
-    return null;
-  return isProxy(props) || InternalObjectKey in props ? extend({}, props) : props;
-}
 const emptyAppContext = createAppContext();
 let uid = 0;
 function createComponentInstance(vnode, parent, suspense) {
@@ -6679,11 +6581,6 @@ function initApp(app) {
   }
 }
 const propsCaches = /* @__PURE__ */ Object.create(null);
-function renderProps(props) {
-  const { uid: uid2, __counter } = getCurrentInstance();
-  const propsId = (propsCaches[uid2] || (propsCaches[uid2] = [])).push(guardReactiveProps(props)) - 1;
-  return uid2 + "," + propsId + "," + __counter;
-}
 function pruneComponentPropsCache(uid2) {
   delete propsCaches[uid2];
 }
@@ -6724,100 +6621,6 @@ function getCreateApp() {
     return my[method];
   }
 }
-function vOn(value, key) {
-  const instance = getCurrentInstance();
-  const ctx = instance.ctx;
-  const extraKey = typeof key !== "undefined" && (ctx.$mpPlatform === "mp-weixin" || ctx.$mpPlatform === "mp-qq" || ctx.$mpPlatform === "mp-xhs") && (isString(key) || typeof key === "number") ? "_" + key : "";
-  const name = "e" + instance.$ei++ + extraKey;
-  const mpInstance = ctx.$scope;
-  if (!value) {
-    delete mpInstance[name];
-    return name;
-  }
-  const existingInvoker = mpInstance[name];
-  if (existingInvoker) {
-    existingInvoker.value = value;
-  } else {
-    mpInstance[name] = createInvoker(value, instance);
-  }
-  return name;
-}
-function createInvoker(initialValue, instance) {
-  const invoker = (e2) => {
-    patchMPEvent(e2);
-    let args = [e2];
-    if (e2.detail && e2.detail.__args__) {
-      args = e2.detail.__args__;
-    }
-    const eventValue = invoker.value;
-    const invoke = () => callWithAsyncErrorHandling(patchStopImmediatePropagation(e2, eventValue), instance, 5, args);
-    const eventTarget = e2.target;
-    const eventSync = eventTarget ? eventTarget.dataset ? String(eventTarget.dataset.eventsync) === "true" : false : false;
-    if (bubbles.includes(e2.type) && !eventSync) {
-      setTimeout(invoke);
-    } else {
-      const res = invoke();
-      if (e2.type === "input" && (isArray(res) || isPromise(res))) {
-        return;
-      }
-      return res;
-    }
-  };
-  invoker.value = initialValue;
-  return invoker;
-}
-const bubbles = [
-  // touch事件暂不做延迟，否则在 Android 上会影响性能，比如一些拖拽跟手手势等
-  // 'touchstart',
-  // 'touchmove',
-  // 'touchcancel',
-  // 'touchend',
-  "tap",
-  "longpress",
-  "longtap",
-  "transitionend",
-  "animationstart",
-  "animationiteration",
-  "animationend",
-  "touchforcechange"
-];
-function patchMPEvent(event) {
-  if (event.type && event.target) {
-    event.preventDefault = NOOP;
-    event.stopPropagation = NOOP;
-    event.stopImmediatePropagation = NOOP;
-    if (!hasOwn(event, "detail")) {
-      event.detail = {};
-    }
-    if (hasOwn(event, "markerId")) {
-      event.detail = typeof event.detail === "object" ? event.detail : {};
-      event.detail.markerId = event.markerId;
-    }
-    if (isPlainObject$1(event.detail) && hasOwn(event.detail, "checked") && !hasOwn(event.detail, "value")) {
-      event.detail.value = event.detail.checked;
-    }
-    if (isPlainObject$1(event.detail)) {
-      event.target = extend({}, event.target, event.detail);
-    }
-  }
-}
-function patchStopImmediatePropagation(e2, value) {
-  if (isArray(value)) {
-    const originalStop = e2.stopImmediatePropagation;
-    e2.stopImmediatePropagation = () => {
-      originalStop && originalStop.call(e2);
-      e2._stopped = true;
-    };
-    return value.map((fn) => (e3) => !e3._stopped && fn(e3));
-  } else {
-    return value;
-  }
-}
-const o = (value, key) => vOn(value, key);
-const e = (target, ...sources) => extend(target, ...sources);
-const n = (value) => normalizeClass(value);
-const t = (val) => toDisplayString(val);
-const p = (props) => renderProps(props);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
   return createVueApp(rootComponent, rootProps).use(plugin);
@@ -7674,8 +7477,8 @@ function del(target, key) {
 let activePinia;
 const setActivePinia = (pinia) => activePinia = pinia;
 const piniaSymbol = Symbol("pinia");
-function isPlainObject(o2) {
-  return o2 && typeof o2 === "object" && Object.prototype.toString.call(o2) === "[object Object]" && typeof o2.toJSON !== "function";
+function isPlainObject(o) {
+  return o && typeof o === "object" && Object.prototype.toString.call(o) === "[object Object]" && typeof o.toJSON !== "function";
 }
 var MutationType;
 (function(MutationType2) {
@@ -7830,8 +7633,8 @@ function shouldHydrate(obj) {
   return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol);
 }
 const { assign } = Object;
-function isComputed(o2) {
-  return !!(isRef(o2) && o2.effect);
+function isComputed(o) {
+  return !!(isRef(o) && o.effect);
 }
 function createOptionsStore(id, options, pinia, hot) {
   const { state, actions, getters } = options;
@@ -8149,8 +7952,8 @@ function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) 
       // avoid warning on devtools trying to display this property
       enumerable: false
     };
-    ["_p", "_hmrPayload", "_getters", "_customProperties"].forEach((p2) => {
-      Object.defineProperty(store, p2, assign({ value: store[p2] }, nonEnumerable));
+    ["_p", "_hmrPayload", "_getters", "_customProperties"].forEach((p) => {
+      Object.defineProperty(store, p, assign({ value: store[p] }, nonEnumerable));
     });
   }
   pinia._p.forEach((extender) => {
@@ -8257,16 +8060,16 @@ function normalizeOptions(options, factoryOptions) {
   });
 }
 function get(state, path) {
-  return path.reduce((obj, p2) => {
-    return obj == null ? void 0 : obj[p2];
+  return path.reduce((obj, p) => {
+    return obj == null ? void 0 : obj[p];
   }, state);
 }
 function set(state, path, val) {
-  return path.slice(0, -1).reduce((obj, p2) => {
-    if (/^(__proto__)$/.test(p2))
+  return path.slice(0, -1).reduce((obj, p) => {
+    if (/^(__proto__)$/.test(p))
       return {};
     else
-      return obj[p2] = obj[p2] || {};
+      return obj[p] = obj[p] || {};
   }, state)[path[path.length - 1]] = val, state;
 }
 function pick(baseState, paths) {
@@ -8276,7 +8079,7 @@ function pick(baseState, paths) {
   }, {});
 }
 function parsePersistence(factoryOptions, store) {
-  return (o2) => {
+  return (o) => {
     var _a;
     try {
       const {
@@ -8290,7 +8093,7 @@ function parsePersistence(factoryOptions, store) {
         key = store.$id,
         paths = null,
         debug = false
-      } = o2;
+      } = o;
       return {
         storage,
         beforeRestore,
@@ -8300,9 +8103,9 @@ function parsePersistence(factoryOptions, store) {
         paths,
         debug
       };
-    } catch (e2) {
-      if (o2.debug)
-        console.error("[pinia-plugin-persistedstate]", e2);
+    } catch (e) {
+      if (o.debug)
+        console.error("[pinia-plugin-persistedstate]", e);
       return null;
     }
   };
@@ -8312,18 +8115,18 @@ function hydrateStore(store, { storage, serializer, key, debug }) {
     const fromStorage = storage == null ? void 0 : storage.getItem(key);
     if (fromStorage)
       store.$patch(serializer == null ? void 0 : serializer.deserialize(fromStorage));
-  } catch (e2) {
+  } catch (e) {
     if (debug)
-      console.error("[pinia-plugin-persistedstate]", e2);
+      console.error("[pinia-plugin-persistedstate]", e);
   }
 }
 function persistState(state, { storage, serializer, key, paths, debug }) {
   try {
     const toStore = Array.isArray(paths) ? pick(state, paths) : state;
     storage.setItem(key, serializer.serialize(toStore));
-  } catch (e2) {
+  } catch (e) {
     if (debug)
-      console.error("[pinia-plugin-persistedstate]", e2);
+      console.error("[pinia-plugin-persistedstate]", e);
   }
 }
 function createPersistedState(factoryOptions = {}) {
@@ -8342,7 +8145,7 @@ function createPersistedState(factoryOptions = {}) {
         Promise.resolve().then(() => original_store.$persist());
       return;
     }
-    const persistences = (Array.isArray(persist) ? persist.map((p2) => normalizeOptions(p2, factoryOptions)) : [normalizeOptions(persist, factoryOptions)]).map(parsePersistence(factoryOptions, store)).filter(Boolean);
+    const persistences = (Array.isArray(persist) ? persist.map((p) => normalizeOptions(p, factoryOptions)) : [normalizeOptions(persist, factoryOptions)]).map(parsePersistence(factoryOptions, store)).filter(Boolean);
     store.$persist = () => {
       persistences.forEach((persistence) => {
         persistState(store.$state, persistence);
@@ -8380,13 +8183,7 @@ exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
 exports.defineComponent = defineComponent;
 exports.defineStore = defineStore;
-exports.e = e;
 exports.index = index;
-exports.n = n;
-exports.o = o;
-exports.p = p;
 exports.ref = ref;
-exports.resolveComponent = resolveComponent;
 exports.src_default = src_default;
-exports.t = t;
 exports.unref = unref;

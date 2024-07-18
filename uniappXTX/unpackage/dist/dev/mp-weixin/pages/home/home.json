@@ -1,7 +1,8 @@
 {
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
   "navigationBarTitleText": "首页",
   "usingComponents": {
-    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section",
-    "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card"
+    "custom-navbar": "./components/CustomNavbar"
   }
 }

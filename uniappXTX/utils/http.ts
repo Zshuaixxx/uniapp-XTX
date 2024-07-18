@@ -42,6 +42,10 @@ export const http =<T>(options:UniApp.RequestOptions)=>{
 					resolve(res.data as resdata<T>)
 				}else if(res.statusCode === 401){
 					memberStore.clearProfile()
+					uni.showToast({
+						icon:"none",
+						text:'请先登录'
+					})
 					uni.navigateTo({
 						url:'/pages/login/login'
 					})

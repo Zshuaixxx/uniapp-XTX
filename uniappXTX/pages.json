@@ -12,6 +12,8 @@
 		"path" : "pages/home/home",
 		"style" : 
 		{
+			"navigationStyle": "custom",
+			"navigationBarTextStyle": "white",
 			"navigationBarTitleText" : "首页"
 		}
 	},
