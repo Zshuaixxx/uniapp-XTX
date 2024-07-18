@@ -9,4 +9,11 @@ const getHomeBannerService = (distributionSite = 1) => {
     }
   });
 };
+const getHomeCategoryMmutliService = () => {
+  return utils_http.http({
+    method: "GET",
+    url: "/home/category/mutli"
+  });
+};
 exports.getHomeBannerService = getHomeBannerService;
+exports.getHomeCategoryMmutliService = getHomeCategoryMmutliService;
