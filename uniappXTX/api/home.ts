@@ -1,4 +1,4 @@
-import { BannerItem, CategoryItem } from "../types/home"
+import { BannerItem, CategoryItem, HotItem } from "../types/home"
 import { http } from "../utils/http"
 
 ///home/banner 请求轮播图数据
@@ -17,5 +17,13 @@ export const getHomeCategoryMmutliService=()=>{
 	return http<CategoryItem[]>({
 		method:'GET',
 		url: '/home/category/mutli',
+	})
+}
+
+///home/hot/mutli 请求热门推荐数据
+export const getHomeHotMutliService=()=>{
+	return http<HotItem[]>({
+		method:'GET',
+		url: '/home/hot/mutli',
 	})
 }

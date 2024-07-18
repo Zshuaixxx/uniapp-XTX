@@ -16,3 +16,13 @@ export type CategoryItem={
 	name:string,
 	icon:string
 }
+
+//首页-热门推荐区域数据类型
+export type HotItem={
+	id:string,
+	alt:string,
+	pictures:string[],
+	target:string,
+	title:string,
+	type:string
+}

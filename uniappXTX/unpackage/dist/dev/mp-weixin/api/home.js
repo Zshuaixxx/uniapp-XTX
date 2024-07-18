@@ -15,5 +15,12 @@ const getHomeCategoryMmutliService = () => {
     url: "/home/category/mutli"
   });
 };
+const getHomeHotMutliService = () => {
+  return utils_http.http({
+    method: "GET",
+    url: "/home/hot/mutli"
+  });
+};
 exports.getHomeBannerService = getHomeBannerService;
 exports.getHomeCategoryMmutliService = getHomeCategoryMmutliService;
+exports.getHomeHotMutliService = getHomeHotMutliService;

@@ -5,12 +5,14 @@
 	import CustomNavbar from './components/CustomNavbar.vue';
 	import XtxSwiper from '../../components/XtxSwiper.vue';
 	import CategoryPnael from './components/CategoryPanel.vue';
-	import{getHomeBannerService, getHomeCategoryMmutliService}from '../../api/home'
-	import { BannerItem, CategoryItem } from '../../types/home';
+	import HotPanel from './components/HotPanel.vue';
+	import{getHomeBannerService, getHomeCategoryMmutliService, getHomeHotMutliService}from '../../api/home'
+	import { BannerItem, CategoryItem, HotItem } from '../../types/home';
 	
 	onLoad(()=>{
 		getBannerList()
 		getCategoryList()
+		getHotList()
 	})
 	
 	//轮播图数据
@@ -28,12 +30,25 @@
 		console.log('首页分类接口返回：',res)
 		CategoryList.value=res.result
 	}
+	
+	//热门推荐数据
+	const HotList=ref<HotItem[]>([])
+	const getHotList=async()=>{
+		const res=await getHomeHotMutliService()
+		console.log('首页获取热门推荐数据接口返回:',res)
+		HotList.value=res.result
+	}
 </script>
 
 <template>
+	<!-- 导航栏 -->
 	<CustomNavbar></CustomNavbar>
+	<!-- 轮播图 -->
 	<XtxSwiper :list="BannerList"></XtxSwiper>
+	<!-- 分类 -->
 	<CategoryPnael :list="CategoryList"></CategoryPnael>
+	<!-- 热门推荐 -->
+	<HotPanel :list="HotList"></HotPanel>
 </template>
 
 
