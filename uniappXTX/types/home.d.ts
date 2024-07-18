@@ -26,3 +26,15 @@ export type HotItem={
 	title:string,
 	type:string
 }
+
+
+// 首页猜你喜欢数据类型
+export type nowpage={
+	id:string,
+	name:string,
+	desc:string,
+	price:number,
+	picture:string,
+	discount:number,
+	orderNum:number
+}

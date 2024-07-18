@@ -8358,6 +8358,7 @@ exports.f = f;
 exports.index = index;
 exports.o = o;
 exports.onLoad = onLoad;
+exports.onMounted = onMounted;
 exports.p = p;
 exports.ref = ref;
 exports.src_default = src_default;

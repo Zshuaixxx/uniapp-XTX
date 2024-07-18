@@ -1,18 +1,19 @@
 <script setup lang="ts">
 	import { ref } from 'vue';
 	import { onLoad } from'@dcloudio/uni-app'
-	
 	import CustomNavbar from './components/CustomNavbar.vue';
 	import XtxSwiper from '../../components/XtxSwiper.vue';
 	import CategoryPnael from './components/CategoryPanel.vue';
 	import HotPanel from './components/HotPanel.vue';
+	import XtxGuess from '../../components/XtxGuess.vue'
 	import{getHomeBannerService, getHomeCategoryMmutliService, getHomeHotMutliService}from '../../api/home'
-	import { BannerItem, CategoryItem, HotItem } from '../../types/home';
+	import { BannerItem, CategoryItem,  HotItem } from '../../types/home';
 	
 	onLoad(()=>{
 		getBannerList()
 		getCategoryList()
 		getHotList()
+
 	})
 	
 	//轮播图数据
@@ -38,6 +39,8 @@
 		console.log('首页获取热门推荐数据接口返回:',res)
 		HotList.value=res.result
 	}
+	
+
 </script>
 
 <template>
@@ -49,6 +52,8 @@
 	<CategoryPnael :list="CategoryList"></CategoryPnael>
 	<!-- 热门推荐 -->
 	<HotPanel :list="HotList"></HotPanel>
+	<!-- 猜你喜欢 -->
+	<XtxGuess :obj="GuessList"></XtxGuess>
 </template>
 
 

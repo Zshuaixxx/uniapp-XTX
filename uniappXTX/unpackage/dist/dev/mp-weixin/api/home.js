@@ -21,6 +21,17 @@ const getHomeHotMutliService = () => {
     url: "/home/hot/mutli"
   });
 };
+const getHomeGoodsGuessLikeService = (page = 1, pageSize = 10) => {
+  return utils_http.http({
+    method: "GET",
+    url: "/home/goods/guessLike",
+    data: {
+      page,
+      pageSize
+    }
+  });
+};
 exports.getHomeBannerService = getHomeBannerService;
 exports.getHomeCategoryMmutliService = getHomeCategoryMmutliService;
+exports.getHomeGoodsGuessLikeService = getHomeGoodsGuessLikeService;
 exports.getHomeHotMutliService = getHomeHotMutliService;

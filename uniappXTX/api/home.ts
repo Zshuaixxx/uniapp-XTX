@@ -1,4 +1,4 @@
-import { BannerItem, CategoryItem, HotItem } from "../types/home"
+import { BannerItem, CategoryItem, GuessItem, HotItem } from "../types/home"
 import { http } from "../utils/http"
 
 ///home/banner 请求轮播图数据
@@ -25,5 +25,20 @@ export const getHomeHotMutliService=()=>{
 	return http<HotItem[]>({
 		method:'GET',
 		url: '/home/hot/mutli',
+	})
+}
+
+///home/goods/guessLike 请求猜你喜欢数据
+export const getHomeGoodsGuessLikeService=(
+	page=1,
+	pageSize=10
+)=>{
+	return http<GuessItem>({
+		method:'GET',
+		url:'/home/goods/guessLike',
+		data:{
+			page,
+			pageSize
+		}
 	})
 }

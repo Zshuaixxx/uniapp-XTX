@@ -2,12 +2,13 @@
 const common_vendor = require("../../common/vendor.js");
 const api_home = require("../../api/home.js");
 if (!Math) {
-  (CustomNavbar + XtxSwiper + CategoryPnael + HotPanel)();
+  (CustomNavbar + XtxSwiper + CategoryPnael + HotPanel + XtxGuess)();
 }
 const CustomNavbar = () => "./components/CustomNavbar.js";
 const XtxSwiper = () => "../../components/XtxSwiper.js";
 const CategoryPnael = () => "./components/CategoryPanel.js";
 const HotPanel = () => "./components/HotPanel.js";
+const XtxGuess = () => "../../components/XtxGuess.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "home",
   setup(__props) {
@@ -44,6 +45,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         c: common_vendor.p({
           list: HotList.value
+        }),
+        d: common_vendor.p({
+          obj: _ctx.GuessList
         })
       };
     };
