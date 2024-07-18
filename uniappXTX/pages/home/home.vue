@@ -47,12 +47,20 @@
 		GuessRef.value?.getGuessList(GuessRef.value.Homepage,GuessRef.value.HomepageSize)
 	}
 	
+	//下拉刷新
+	const isPull=ref(false)
+	const PullFresh=async()=>{
+		isPull.value=true
+		GuessRef.value.resetData()
+		Promise.all([getBannerList(),getCategoryList(),getHotList(),GuessRef.value?.getGuessList(GuessRef.value.Homepage,GuessRef.value.HomepageSize)])
+		isPull.value=false
+	}
 </script>
 
 <template>
 	<!-- 导航栏 -->
 	<CustomNavbar class="navbar"></CustomNavbar>
-	<scroll-view class="scroll-view" scroll-y @scrolltolower="freshGuess()">
+	<scroll-view class="scroll-view" scroll-y @scrolltolower="freshGuess()" @refresherrefresh="PullFresh()" refresher-enabled :refresher-triggered="isPull">
 		<!-- 轮播图 -->
 		<XtxSwiper :list="BannerList"></XtxSwiper>
 		<!-- 分类 -->

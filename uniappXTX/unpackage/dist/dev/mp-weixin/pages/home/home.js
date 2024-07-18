@@ -42,6 +42,14 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       GuessRef.value.Homepage++;
       (_a = GuessRef.value) == null ? void 0 : _a.getGuessList(GuessRef.value.Homepage, GuessRef.value.HomepageSize);
     };
+    const isPull = common_vendor.ref(false);
+    const PullFresh = async () => {
+      var _a;
+      isPull.value = true;
+      GuessRef.value.resetData();
+      Promise.all([getBannerList(), getCategoryList(), getHotList(), (_a = GuessRef.value) == null ? void 0 : _a.getGuessList(GuessRef.value.Homepage, GuessRef.value.HomepageSize)]);
+      isPull.value = false;
+    };
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
@@ -56,7 +64,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         d: common_vendor.sr(GuessRef, "432f47ff-4", {
           "k": "GuessRef"
         }),
-        e: common_vendor.o(($event) => freshGuess())
+        e: common_vendor.o(($event) => freshGuess()),
+        f: common_vendor.o(($event) => PullFresh()),
+        g: isPull.value
       };
     };
   }
