@@ -2,7 +2,7 @@
 <script setup lang="ts">
 	import{onLoad} from '@dcloudio/uni-app'
 	import { getHotDataService } from '../../api/hot';
-import { HotData, subType } from '../../types/hot';
+import {  subType } from '../../types/hot';
 import { ref } from 'vue';
 
 	onLoad(()=>{
@@ -28,7 +28,7 @@ import { ref } from 'vue';
 	//获取页面数据
 	// const nowHotData=ref<HotData>()
 	const pic=ref('')
-	const subs=ref<subType[]>()
+	const subs=ref<(subType&{havemore?:boolean})[]>()
 	const getHotData=async()=>{
 		const res=await getHotDataService(nowhot.url)
 		console.log('推荐页面获取数据接口返回res:',res)
@@ -39,6 +39,28 @@ import { ref } from 'vue';
 	}
 	
 	const activeIndex=ref(0)
+	
+	//滚动到底部
+	const onLower=async()=>{
+		if(subs.value[activeIndex.value].goodsItems.page < subs.value[activeIndex.value].goodsItems.pages){
+			console.log(subs.value[activeIndex.value])
+			subs.value[activeIndex.value].goodsItems.page++
+			const res=await getHotDataService(nowhot.url,{
+				subType:subs.value[activeIndex.value].id,
+				pageSize:subs.value[activeIndex.value].goodsItems.pageSize,
+				page:subs.value[activeIndex.value].goodsItems.page
+			})
+			const newGoods=res.result.subTypes[activeIndex.value].goodsItems.items
+			subs.value[activeIndex.value].goodsItems.items.push(...newGoods)
+		}
+		else{
+			subs.value[activeIndex.value].havemore=false
+			uni.showToast({
+				'title':'没有更多数据了',
+				icon:'none'
+			})
+		}
+	}
 </script>
 
 <template>
@@ -68,6 +90,7 @@ import { ref } from 'vue';
 	 v-for="(subType,index) in subs"
 	 :key="subType.id"
 	 v-show="index === activeIndex"
+	 @scrolltolower="onLower()"
 	>
       <view class="goods">
         <navigator
@@ -88,7 +111,7 @@ import { ref } from 'vue';
           </view>
         </navigator>
       </view>
-      <view class="loading-text">正在加载...</view>
+      <view class="loading-text">{{subType.havemore ? '正在加载...' : '人家也是有底线的'}}</view>
     </scroll-view>
   </view>
 </template>

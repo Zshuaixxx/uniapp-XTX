@@ -2,7 +2,7 @@
 export type Hotparams={
 	subType:string,
 	pageSize:number,
-	page:null
+	page:number
 }
 
 //热门推荐页面返回数据类型
@@ -15,9 +15,9 @@ type item={
 }
 type GoodsItem={
 	counts:string,
-	pages:string,
-	page:string,
-	pagesize:string
+	pages:number,
+	page:number,
+	pageSize:number,
 	items:item[]
 }
 type subType={
