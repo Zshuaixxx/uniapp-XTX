@@ -3,5 +3,6 @@
   "projectname": "uniappXTX",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "condition": {}
 }

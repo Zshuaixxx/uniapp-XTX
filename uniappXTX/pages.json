@@ -51,6 +51,13 @@
 		{
 			"navigationBarTitleText" : ""
 		}
+	},
+	{
+		"path" : "pages/goods/goods",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
