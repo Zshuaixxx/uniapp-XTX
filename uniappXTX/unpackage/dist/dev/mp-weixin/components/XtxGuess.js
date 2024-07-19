@@ -56,11 +56,11 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             a: item.picture,
             b: common_vendor.t(item.name),
             c: common_vendor.t(item.price),
-            d: item.id
+            d: item.id,
+            e: `/pages/goods/goods?id=${item.id}`
           };
         }),
-        b: `/pages/goods/goods?id={{item.id}}`,
-        c: common_vendor.t(finsh.value ? "人家也是有底线的" : "正在加载... ")
+        b: common_vendor.t(finsh.value ? "人家也是有底线的" : "正在加载... ")
       };
     };
   }

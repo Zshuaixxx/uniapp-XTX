@@ -63,7 +63,7 @@
       class="guess-item"
       v-for="item in GuessList.items"
       :key="item.id"
-      :url="`/pages/goods/goods?id={{item.id}}`"
+      :url="`/pages/goods/goods?id=${item.id}`"
     >
       <image
         class="image"

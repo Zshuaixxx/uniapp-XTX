@@ -4,6 +4,8 @@
 import { getGoodsDetailService } from '../../api/goodsDetail';
 import { GoodsResult } from '../../types/goodsDetail';
 import { ref } from 'vue';
+import AddressPanel from './components/AddressPanel.vue';
+import ServicePanel from './components/ServicePanel.vue';
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
@@ -31,6 +33,17 @@ const tapPic=(url:string)=>{
 		urls:goodsDetail.value!.mainPictures,
 		url:url
 	})
+}
+//弹出层shil
+const whcicProp=ref('dizhi')
+const popup=ref()
+const openPopup=(what:string)=>{
+	popup.value.open('bottom')
+	whcicProp.value=what
+}
+const closePop=()=>{
+	console.log('自吊缚成功')
+	popup.value.close()
 }
 </script>
 
@@ -72,11 +85,11 @@ const tapPic=(url:string)=>{
           <text class="label">选择</text>
           <text class="text ellipsis"> 请选择商品规格 </text>
         </view>
-        <view class="item arrow">
+        <view class="item arrow" @tap="openPopup('dizhi')">
           <text class="label">送至</text>
           <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
-        <view class="item arrow">
+        <view class="item arrow" @tap="openPopup('fuwu')">
           <text class="label">服务</text>
           <text class="text ellipsis"> 无忧退 快速退款 免费包邮 </text>
         </view>
@@ -150,6 +163,12 @@ const tapPic=(url:string)=>{
       <view class="buynow"> 立即购买 </view>
     </view>
   </view>
+  
+  //弹出层
+  <uni-popup ref="popup" type="bottom" border-radius="10px 10px 0 0">
+	  <AddressPanel @close="closePop" v-if="whcicProp === 'dizhi'"></AddressPanel>
+	  <ServicePanel @close="closePop" v-if="whcicProp === 'fuwu'"></ServicePanel>
+  </uni-popup>
 </template>
 
 <style lang="scss">

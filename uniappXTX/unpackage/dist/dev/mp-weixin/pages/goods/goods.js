@@ -1,6 +1,16 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const api_goodsDetail = require("../../api/goodsDetail.js");
+if (!Array) {
+  const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
+  _easycom_uni_popup2();
+}
+const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+if (!Math) {
+  (AddressPanel + ServicePanel + _easycom_uni_popup)();
+}
+const AddressPanel = () => "./components/AddressPanel.js";
+const ServicePanel = () => "./components/ServicePanel.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "goods",
   props: {
@@ -27,9 +37,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         url
       });
     };
+    const whcicProp = common_vendor.ref("dizhi");
+    const popup = common_vendor.ref();
+    const openPopup = (what) => {
+      popup.value.open("bottom");
+      whcicProp.value = what;
+    };
+    const closePop = () => {
+      console.log("自吊缚成功");
+      popup.value.close();
+    };
     return (_ctx, _cache) => {
       var _a, _b, _c;
-      return {
+      return common_vendor.e({
         a: common_vendor.f((_a = goodsDetail.value) == null ? void 0 : _a.mainPictures, (item, k0, i0) => {
           return {
             a: item,
@@ -43,20 +63,22 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         e: common_vendor.t(goodsDetail.value.price),
         f: common_vendor.t(goodsDetail.value.name),
         g: common_vendor.t(goodsDetail.value.desc),
-        h: common_vendor.f(goodsDetail.value.details.properties, (item, k0, i0) => {
+        h: common_vendor.o(($event) => openPopup("dizhi")),
+        i: common_vendor.o(($event) => openPopup("fuwu")),
+        j: common_vendor.f(goodsDetail.value.details.properties, (item, k0, i0) => {
           return {
             a: common_vendor.t(item.name),
             b: common_vendor.t(item.value),
             c: item.name
           };
         }),
-        i: common_vendor.f(goodsDetail.value.details.pictures, (item, k0, i0) => {
+        k: common_vendor.f(goodsDetail.value.details.pictures, (item, k0, i0) => {
           return {
             a: item,
             b: item
           };
         }),
-        j: common_vendor.f(goodsDetail.value.similarProducts, (item, k0, i0) => {
+        l: common_vendor.f(goodsDetail.value.similarProducts, (item, k0, i0) => {
           return {
             a: item.picture,
             b: common_vendor.t(item.name),
@@ -65,8 +87,23 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             e: `/pages/goods/goods?id=${item.id}`
           };
         }),
-        k: ((_c = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _c.bottom) + "px"
-      };
+        m: ((_c = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _c.bottom) + "px",
+        n: whcicProp.value === "dizhi"
+      }, whcicProp.value === "dizhi" ? {
+        o: common_vendor.o(closePop)
+      } : {}, {
+        p: whcicProp.value === "fuwu"
+      }, whcicProp.value === "fuwu" ? {
+        q: common_vendor.o(closePop)
+      } : {}, {
+        r: common_vendor.sr(popup, "72d4324d-0", {
+          "k": "popup"
+        }),
+        s: common_vendor.p({
+          type: "bottom",
+          ["border-radius"]: "10px 10px 0 0"
+        })
+      });
     };
   }
 });
