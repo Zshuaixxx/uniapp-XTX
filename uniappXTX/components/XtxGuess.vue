@@ -38,7 +38,7 @@
 		console.log('猜你喜欢数组赋值后：',GuessList.value.items)
 	}
   }
-  //重置2数据
+  //重置数据
   const resetData=()=>{
 	  Homepage.value=1
 	  HomepageSize.value=10
