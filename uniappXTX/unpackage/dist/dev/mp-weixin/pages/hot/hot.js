@@ -23,18 +23,41 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.index.setNavigationBarTitle({
       title: nowhot.title
     });
+    const pic = common_vendor.ref("");
+    const subs = common_vendor.ref();
     const getHotData = async () => {
       const res = await api_hot.getHotDataService(nowhot.url);
       console.log("推荐页面获取数据接口返回res:", res);
+      pic.value = res.result.bannerPicture;
+      subs.value = res.result.subTypes;
     };
+    const activeIndex = common_vendor.ref(0);
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.f(10, (goods, k0, i0) => {
+        a: pic.value,
+        b: common_vendor.f(subs.value, (subType2, index, i0) => {
           return {
-            a: goods
+            a: common_vendor.t(subType2.title),
+            b: subType2.id,
+            c: index === activeIndex.value ? 1 : "",
+            d: common_vendor.o(($event) => activeIndex.value = index, subType2.id)
           };
         }),
-        b: `/pages/goods/goods?id=`
+        c: common_vendor.f(subs.value, (subType2, index, i0) => {
+          return {
+            a: common_vendor.f(subType2.goodsItems.items, (goods, k1, i1) => {
+              return {
+                a: goods.picture,
+                b: common_vendor.t(goods.name),
+                c: common_vendor.t(goods.price),
+                d: goods.id,
+                e: `/pages/goods/goods?id=${goods.id}`
+              };
+            }),
+            b: subType2.id,
+            c: index === activeIndex.value
+          };
+        })
       };
     };
   }

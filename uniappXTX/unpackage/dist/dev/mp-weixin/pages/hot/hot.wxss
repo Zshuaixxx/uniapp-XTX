@@ -20,7 +20,12 @@ page {
   left: 0;
   top: 0;
 }
+.img {
+  width: 750rpx;
+  height: 225rpx;
+}
 .scroll-view {
+  height: 0;
   flex: 1;
 }
 .tabs {
@@ -58,7 +63,7 @@ page {
   padding: 0 20rpx 20rpx;
 }
 .goods .navigator {
-  width: 345rpx;
+  width: 300rpx;
   padding: 20rpx;
   margin-top: 20rpx;
   border-radius: 10rpx;

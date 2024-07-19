@@ -2,6 +2,8 @@
 <script setup lang="ts">
 	import{onLoad} from '@dcloudio/uni-app'
 	import { getHotDataService } from '../../api/hot';
+import { HotData, subType } from '../../types/hot';
+import { ref } from 'vue';
 
 	onLoad(()=>{
 		getHotData()
@@ -24,11 +26,19 @@
 	})
 
 	//获取页面数据
+	// const nowHotData=ref<HotData>()
+	const pic=ref('')
+	const subs=ref<subType[]>()
 	const getHotData=async()=>{
 		const res=await getHotDataService(nowhot.url)
 		console.log('推荐页面获取数据接口返回res:',res)
+		// nowHotData.value.bannerPicture=res.result.bannerPicture
+		pic.value=res.result.bannerPicture
+		// nowHotData.value.subType=res.result.subType
+		subs.value=res.result.subTypes
 	}
-
+	
+	const activeIndex=ref(0)
 </script>
 
 <template>
@@ -36,32 +46,45 @@
     <!-- 推荐封面图 -->
     <view class="cover">
       <image
-        src="http://yjy-xiaotuxian-dev.oss-cn-beijing.aliyuncs.com/picture/2021-05-20/84abb5b1-8344-49ae-afc1-9cb932f3d593.jpg"
+        :src="pic"
+		class="img"
       ></image>
     </view>
     <!-- 推荐选项 -->
     <view class="tabs">
-      <text class="text active">抢先尝鲜</text>
-      <text class="text">新品预告</text>
+      <!-- <text class="text active">抢先尝鲜</text>
+      <text class="text">新品预告</text> --> 
+	  <text class="text" 
+	  v-for="(subType,index) in subs"
+	   :key="subType.id" 
+	   :class="{active:index===activeIndex}"
+	   @tap="activeIndex=index"
+	  >{{subType.title}}</text>
     </view>
     <!-- 推荐列表 -->
-    <scroll-view scroll-y class="scroll-view">
+    <scroll-view
+	 scroll-y 
+	 class="scroll-view"
+	 v-for="(subType,index) in subs"
+	 :key="subType.id"
+	 v-show="index === activeIndex"
+	>
       <view class="goods">
         <navigator
           hover-class="none"
           class="navigator"
-          v-for="goods in 10"
-          :key="goods"
-          :url="`/pages/goods/goods?id=`"
+          v-for="goods in subType.goodsItems.items"
+          :key="goods.id"
+          :url="`/pages/goods/goods?id=${goods.id}`"
         >
           <image
             class="thumb"
-            src="https://yanxuan-item.nosdn.127.net/5e7864647286c7447eeee7f0025f8c11.png"
+            :src="goods.picture"
           ></image>
-          <view class="name ellipsis">不含酒精，使用安心爽肤清洁湿巾</view>
+          <view class="name ellipsis">{{goods.name}}</view>
           <view class="price">
             <text class="symbol">¥</text>
-            <text class="number">29.90</text>
+            <text class="number">{{goods.price}}</text>
           </view>
         </navigator>
       </view>
@@ -91,7 +114,12 @@ page {
   left: 0;
   top: 0;
 }
+.img{
+	width: 750rpx;
+	height: 225rpx;
+}
 .scroll-view {
+  height: 0;
   flex: 1;
 }
 .tabs {
@@ -130,7 +158,7 @@ page {
   justify-content: space-between;
   padding: 0 20rpx 20rpx;
   .navigator {
-    width: 345rpx;
+    width: 300rpx;
     padding: 20rpx;
     margin-top: 20rpx;
     border-radius: 10rpx;
