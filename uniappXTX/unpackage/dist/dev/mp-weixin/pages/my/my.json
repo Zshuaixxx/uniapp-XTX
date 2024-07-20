@@ -1,4 +1,7 @@
 {
+  "navigationStyle": "custom",
   "navigationBarTitleText": "我的",
-  "usingComponents": {}
+  "usingComponents": {
+    "xtx-guess": "../../components/XtxGuess"
+  }
 }
