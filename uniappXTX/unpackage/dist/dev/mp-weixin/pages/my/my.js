@@ -18,9 +18,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       { type: 4, text: "待评价", icon: "icon-comment" }
     ];
     const UserStore = stores_modules_user.useUserStore();
-    const userInfo = UserStore.profile;
     let hadLogin = false;
-    if (userInfo.token) {
+    if (UserStore.profile.token) {
       hadLogin = true;
       console.log("已登录");
     }
@@ -29,11 +28,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       lowFresh
     } = hooks_useGuessList.useGuessList();
     return (_ctx, _cache) => {
+      var _a, _b, _c;
       return common_vendor.e({
         a: common_vendor.unref(hadLogin)
       }, common_vendor.unref(hadLogin) ? {
-        b: common_vendor.unref(userInfo).avatar,
-        c: common_vendor.t(common_vendor.unref(userInfo).nikename || common_vendor.unref(userInfo).id)
+        b: (_a = common_vendor.unref(UserStore).profile) == null ? void 0 : _a.avatar,
+        c: common_vendor.t(((_b = common_vendor.unref(UserStore).profile) == null ? void 0 : _b.nikename) || ((_c = common_vendor.unref(UserStore).profile) == null ? void 0 : _c.id))
       } : {}, {
         d: common_vendor.unref(safeAreaInsets).top + "px",
         e: common_vendor.f(orderTypes, (item, k0, i0) => {

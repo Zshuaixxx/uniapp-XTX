@@ -15,9 +15,8 @@ const orderTypes = [
   { type: 4, text: '待评价', icon: 'icon-comment' },
 ]
 const UserStore=useUserStore()
-const userInfo=UserStore.profile
 let hadLogin = false
-if(userInfo.token){
+if(UserStore.profile.token){
 	hadLogin=true
 	console.log('已登录')
 }
@@ -39,11 +38,11 @@ const {
           <image
             class="avatar"
             mode="aspectFill"
-            :src="userInfo.avatar"
+            :src="UserStore.profile?.avatar"
           ></image>
         </navigator>
         <view class="meta">
-          <view class="nickname"> {{userInfo.nikename || userInfo.id}} </view>
+          <view class="nickname"> {{UserStore.profile?.nikename || UserStore.profile?.id}} </view>
           <navigator class="extra" url="pagesMember/profile/profile" hover-class="none">
             <text class="update">更新头像昵称</text>
           </navigator>
