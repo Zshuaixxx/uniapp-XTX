@@ -44,7 +44,7 @@ const {
         </navigator>
         <view class="meta">
           <view class="nickname"> {{userInfo.nikename || userInfo.id}} </view>
-          <navigator class="extra" url="/pagesMember/profile/profile" hover-class="none">
+          <navigator class="extra" url="pagesMember/profile/profile" hover-class="none">
             <text class="update">更新头像昵称</text>
           </navigator>
         </view>
@@ -67,7 +67,7 @@ const {
           </view>
         </view>
       </view>
-      <navigator class="settings" url="/pagesMember/settings/settings" hover-class="none">
+      <navigator class="settings" url="/subpkg/setting/setting" hover-class="none">
         设置
       </navigator>
     </view>

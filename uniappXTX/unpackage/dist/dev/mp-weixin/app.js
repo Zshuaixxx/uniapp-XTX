@@ -10,6 +10,7 @@ if (!Math) {
   "./pages/login/login.js";
   "./pages/hot/hot.js";
   "./pages/goods/goods.js";
+  "./subpkg/setting/setting.js";
 }
 const _sfc_main = {
   onLaunch: function() {

@@ -8,6 +8,14 @@
     "pages/hot/hot",
     "pages/goods/goods"
   ],
+  "subPackages": [
+    {
+      "root": "subpkg",
+      "pages": [
+        "setting/setting"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
@@ -43,6 +51,14 @@
         "selectedIconPath": "static/tabs/wode-s.png"
       }
     ]
+  },
+  "preloadRule": {
+    "pages/my/my": {
+      "network": "all",
+      "packages": [
+        "subpkg"
+      ]
+    }
   },
   "usingComponents": {}
 }
