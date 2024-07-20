@@ -8,6 +8,7 @@
 	import XtxGuess from '../../components/XtxGuess.vue'
 	import{getHomeBannerService, getHomeCategoryMmutliService, getHomeHotMutliService}from '../../api/home'
 	import { BannerItem, CategoryItem,  HotItem } from '../../types/home';
+import { useGuessList } from '../../hooks/useGuessList';
 	
 	onLoad(()=>{
 		getBannerList()
@@ -40,19 +41,17 @@
 	}
 	
 	//猜你喜欢组件实例
-	const GuessRef=ref<InstanceType<typeof XtxGuess>>()
-	const freshGuess=()=>{
-		console.log('下拉刷新')
-		GuessRef.value.Homepage++;
-		GuessRef.value?.getGuessList(GuessRef.value.Homepage,GuessRef.value.HomepageSize)
-	}
+	const {
+		guessRef,
+		lowFresh
+	}=useGuessList()
 	
 	//下拉刷新
 	const isPull=ref(false)
 	const PullFresh=async()=>{
 		isPull.value=true
-		GuessRef.value.resetData()
-		Promise.all([getBannerList(),getCategoryList(),getHotList(),GuessRef.value?.getGuessList(GuessRef.value.Homepage,GuessRef.value.HomepageSize)])
+		guessRef.value.resetData()
+		Promise.all([getBannerList(),getCategoryList(),getHotList(),guessRef.value?.getGuessList(guessRef.value.Homepage,guessRef.value.HomepageSize)])
 		isPull.value=false
 	}
 </script>
@@ -60,7 +59,7 @@
 <template>
 	<!-- 导航栏 -->
 	<CustomNavbar class="navbar"></CustomNavbar>
-	<scroll-view class="scroll-view" scroll-y @scrolltolower="freshGuess()" @refresherrefresh="PullFresh()" refresher-enabled :refresher-triggered="isPull">
+	<scroll-view class="scroll-view" scroll-y @scrolltolower="lowFresh()" @refresherrefresh="PullFresh()" refresher-enabled :refresher-triggered="isPull">
 		<!-- 轮播图 -->
 		<XtxSwiper :list="BannerList"></XtxSwiper>
 		<!-- 分类 -->
@@ -68,7 +67,7 @@
 		<!-- 热门推荐 -->
 		<HotPanel :list="HotList"></HotPanel>
 		<!-- 猜你喜欢 -->
-		<XtxGuess ref="GuessRef"></XtxGuess>
+		<XtxGuess ref="guessRef"></XtxGuess>
 	</scroll-view>
 </template>
 

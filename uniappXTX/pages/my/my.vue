@@ -1,8 +1,10 @@
 // src/pages/my/my.vue
 
 <script setup lang="ts">
-	import XtxGuess from '../../components/XtxGuess.vue'
+	import { ref } from 'vue';
+import XtxGuess from '../../components/XtxGuess.vue'
 import { useUserStore } from '../../stores';
+import { useGuessList } from '../../hooks/useGuessList';
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 // 订单选项
@@ -19,10 +21,16 @@ if(userInfo.token){
 	hadLogin=true
 	console.log('已登录')
 }
+
+const {
+	guessRef,
+	lowFresh
+}=useGuessList()
+
 </script>
 
 <template>
-  <scroll-view class="viewport" scroll-y enable-back-to-top>
+  <scroll-view class="viewport" scroll-y enable-back-to-top @scrolltolower="lowFresh">
     <!-- 个人资料 -->
     <view class="profile" :style="{ paddingTop: safeAreaInsets!.top + 'px' }">
       <!-- 情况1：已登录 -->

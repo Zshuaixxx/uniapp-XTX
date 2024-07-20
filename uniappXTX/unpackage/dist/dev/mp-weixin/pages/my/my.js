@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 require("../../stores/index.js");
+const hooks_useGuessList = require("../../hooks/useGuessList.js");
 const stores_modules_user = require("../../stores/modules/user.js");
 if (!Math) {
   XtxGuess();
@@ -23,6 +24,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       hadLogin = true;
       console.log("已登录");
     }
+    const {
+      guessRef,
+      lowFresh
+    } = hooks_useGuessList.useGuessList();
     return (_ctx, _cache) => {
       return common_vendor.e({
         a: common_vendor.unref(hadLogin)
@@ -39,7 +44,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             d: `/pagesOrder/list/list?type=${item.type}`
           };
         }),
-        f: common_vendor.sr("guessRef", "d7df7e42-0")
+        f: common_vendor.sr(guessRef, "d7df7e42-0", {
+          "k": "guessRef"
+        }),
+        g: common_vendor.o(
+          //@ts-ignore
+          (...args) => common_vendor.unref(lowFresh) && common_vendor.unref(lowFresh)(...args)
+        )
       });
     };
   }
