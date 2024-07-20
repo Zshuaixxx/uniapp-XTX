@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const api_login = require("../../api/login.js");
+const stores_modules_user = require("../../stores/modules/user.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "login",
   setup(__props) {
@@ -23,10 +24,25 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         iv
       });
       console.log("登录接口返回：", res);
+      loginSuccess(res.result);
     };
     const onSimpleLogin = async () => {
       const res = await api_login.postLoginWxMInSimpleService("15072139851");
       console.log("模拟登录接口返回：", res);
+      loginSuccess(res.result);
+    };
+    const loginSuccess = (result) => {
+      const UserStore = stores_modules_user.useUserStore();
+      UserStore.setProfile(result);
+      common_vendor.index.showToast({
+        icon: "success",
+        title: "登录成功"
+      });
+      setTimeout(() => {
+        common_vendor.index.switchTab({
+          url: "/pages/my/my"
+        });
+      }, 300);
     };
     return (_ctx, _cache) => {
       return {

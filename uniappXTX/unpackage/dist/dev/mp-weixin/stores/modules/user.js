@@ -1,20 +1,16 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const useMemberStore = common_vendor.defineStore(
-  "member",
+const useUserStore = common_vendor.defineStore(
+  "user",
   () => {
-    const profile = common_vendor.ref({
-      nikename: "youke"
-    });
+    const profile = common_vendor.ref();
     const setProfile = (val) => {
-      console.log("开始添加:" + val);
+      console.log("开始添加:", val);
       profile.value = val;
     };
     const clearProfile = () => {
       console.log("删除");
-      profile.value = {
-        nikename: "youke"
-      };
+      profile.value = null;
     };
     return {
       profile,
@@ -37,4 +33,4 @@ const useMemberStore = common_vendor.defineStore(
     }
   }
 );
-exports.useMemberStore = useMemberStore;
+exports.useUserStore = useUserStore;

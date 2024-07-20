@@ -15,3 +15,13 @@ export type goods={
 	discount:null,
 	orderNum:number
 }
+
+//登录接口返回数据 用户信息
+export type LoginResultUserInfo={
+	id:number,
+	mobile:string,
+	token:string,
+	nikename:string | null,
+	avatar:string,
+	account:string
+}

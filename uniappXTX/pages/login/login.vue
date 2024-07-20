@@ -3,6 +3,8 @@
 <script setup lang="ts">
 	import {onLoad} from '@dcloudio/uni-app'
 import { postLoginWxMInSimpleService, postLoginWxMinService } from '../../api/login';
+import { LoginResultUserInfo } from '../../types/globe';
+import { useUserStore } from '../../stores/modules/user';
 	onLoad(()=>{
 		getcode()
 	})
@@ -22,12 +24,28 @@ import { postLoginWxMInSimpleService, postLoginWxMinService } from '../../api/lo
 			iv
 		})
 		console.log('登录接口返回：',res)
+		loginSuccess(res.result)
 	}
 	
 	//模拟登录
 	const onSimpleLogin=async()=>{
 		const res=await postLoginWxMInSimpleService('15072139851')
 		console.log('模拟登录接口返回：',res)
+		loginSuccess(res.result)
+	}
+	
+	const loginSuccess=(result:LoginResultUserInfo)=>{
+		const UserStore=useUserStore()
+		UserStore.setProfile(result)
+		uni.showToast({
+			icon:'success',
+			title:'登录成功'
+		})
+		setTimeout(()=>{
+			uni.switchTab({
+				url:'/pages/my/my'
+			})
+		},300)
 	}
 </script>
 

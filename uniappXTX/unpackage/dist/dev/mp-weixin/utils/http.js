@@ -1,7 +1,7 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
 require("../stores/index.js");
-const stores_modules_member = require("../stores/modules/member.js");
+const stores_modules_user = require("../stores/modules/user.js");
 const baseURL = "https://pcapi-xiaotuxian-front-devtest.itheima.net";
 const Interceptor = {
   invoke(options) {
@@ -14,7 +14,7 @@ const Interceptor = {
       ...options.header,
       "source-client": "miniapp"
     };
-    const MemberStore = stores_modules_member.useMemberStore();
+    const MemberStore = stores_modules_user.useUserStore();
     const token = (_a = MemberStore.profile) == null ? void 0 : _a.token;
     if (token) {
       options.header.Authorization = token;
@@ -23,7 +23,7 @@ const Interceptor = {
 };
 common_vendor.index.addInterceptor("request", Interceptor);
 common_vendor.index.addInterceptor("uploadFile", Interceptor);
-const memberStore = stores_modules_member.useMemberStore();
+const memberStore = stores_modules_user.useUserStore();
 const http = (options) => {
   return new Promise((resolve, reject) => {
     common_vendor.index.request({

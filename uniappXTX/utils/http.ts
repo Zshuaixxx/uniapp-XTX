@@ -1,4 +1,4 @@
-import { useMemberStore } from "../stores"
+import { useUserStore } from "../stores"
 
 const baseURL='https://pcapi-xiaotuxian-front-devtest.itheima.net'
 
@@ -15,7 +15,7 @@ const Interceptor={
 			...options.header,
 			'source-client': 'miniapp'
 		}
-		const MemberStore=useMemberStore()
+		const MemberStore=useUserStore()
 		const token=MemberStore.profile?.token
 		if(token){
 			options.header.Authorization=token
@@ -32,7 +32,7 @@ interface resdata<T>{
 	msg:string,
 	result:T
 }
-const memberStore=useMemberStore()
+const memberStore=useUserStore()
 export const http =<T>(options:UniApp.RequestOptions)=>{
 	return new Promise<resdata<T>>((resolve,reject)=>{
 		uni.request({
