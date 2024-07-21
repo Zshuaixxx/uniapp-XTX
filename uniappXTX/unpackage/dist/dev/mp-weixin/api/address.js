@@ -7,4 +7,11 @@ const addAddressService = (data) => {
     data
   });
 };
+const getAddressListService = () => {
+  return utils_http.http({
+    method: "GET",
+    url: "/member/address"
+  });
+};
 exports.addAddressService = addAddressService;
+exports.getAddressListService = getAddressListService;

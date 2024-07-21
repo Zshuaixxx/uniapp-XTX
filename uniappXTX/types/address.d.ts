@@ -13,3 +13,16 @@ export type addAddressParam={
 export type addAddressResult={
 	id:number
 }
+
+//一个收货地址的详情
+export type addressItem={
+	id:string,
+	receiver:string,
+	contact:string,
+	provinceCode:string,
+	cityCode:string,
+	countyCode:string,
+	fullLocation:string,
+	address:string,
+	isDefault:number
+}

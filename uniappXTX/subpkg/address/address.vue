@@ -1,44 +1,38 @@
-<script setup lang="ts">
-//
+<script setup lang="ts">import { ref } from 'vue';
+import { addressItem } from '../../types/address';
+import { onShow } from '@dcloudio/uni-app';
+import { getAddressListService } from '../../api/address';
+onShow(()=>{
+	getAddressList()
+})
+
+const addressList=ref<addressItem[]>([])
+const getAddressList=async()=>{
+	const res=await getAddressListService()
+	addressList.value=res.result
+	console.log('收货地址列表：',addressList.value)
+}
 </script>
 
 <template>
   <view class="viewport">
     <!-- 地址列表 -->
     <scroll-view class="scroll-view" scroll-y>
-      <view v-if="true" class="address">
+      <view v-if="addressList.length > 0" class="address">
         <view class="address-list">
           <!-- 收货地址项 -->
-          <view class="item">
+          <view class="item" v-for="item in addressList">
             <view class="item-content">
               <view class="user">
-                黑马小王子
-                <text class="contact">13111111111</text>
-                <text v-if="true" class="badge">默认</text>
+                {{item.receiver}}
+                <text class="contact">{{item.receiver}}</text>
+                <text v-if="item.isDefault" class="badge">默认</text>
               </view>
-              <view class="locate">广东省 广州市 天河区 黑马程序员</view>
+              <view class="locate">{{item.fullLocation }} {{item.address}}</view>
               <navigator
                 class="edit"
                 hover-class="none"
-                :url="`/subpkg/address-form/address-form?id=1`"
-              >
-                修改
-              </navigator>
-            </view>
-          </view>
-          <!-- 收货地址项 -->
-          <view class="item">
-            <view class="item-content">
-              <view class="user">
-                黑马小公主
-                <text class="contact">13222222222</text>
-                <text v-if="false" class="badge">默认</text>
-              </view>
-              <view class="locate">北京市 北京市 顺义区 黑马程序员</view>
-              <navigator
-                class="edit"
-                hover-class="none"
-                :url="`/subpkg/address-form/address-form?id=2`"
+                :url="`/subpkg/address-form/address-form?id=${item.id}`"
               >
                 修改
               </navigator>
