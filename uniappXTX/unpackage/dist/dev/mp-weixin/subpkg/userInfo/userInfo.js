@@ -8,7 +8,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onLoad(() => {
       getMemberProfile();
     });
-    const userInfo2 = common_vendor.ref();
+    const userInfo2 = common_vendor.ref({});
     const getMemberProfile = async () => {
       const res = await api_user.getMemberProfileService();
       console.log("获取用户信息接口返回", res);
@@ -32,28 +32,36 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }
       });
     };
+    const updataUserInfo = async () => {
+      const res = await api_user.updataUserInfoService({
+        ...userInfo2.value
+      });
+      console.log("修改用户信息接口返回：", res);
+    };
     return (_ctx, _cache) => {
-      var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+      var _a, _b, _c, _d, _e, _f, _g, _h, _i;
       return common_vendor.e({
         a: ((_a = common_vendor.unref(safeAreaInsets)) == null ? void 0 : _a.top) + "px",
         b: (_b = userInfo2.value) == null ? void 0 : _b.avatar,
         c: common_vendor.o(tapAvatar),
         d: common_vendor.t((_c = userInfo2.value) == null ? void 0 : _c.account),
-        e: (_d = userInfo2.value) == null ? void 0 : _d.nickname,
-        f: ((_e = userInfo2.value) == null ? void 0 : _e.gender) === "男",
-        g: ((_f = userInfo2.value) == null ? void 0 : _f.gender) === "女",
-        h: (_g = userInfo2.value) == null ? void 0 : _g.birthday
-      }, ((_h = userInfo2.value) == null ? void 0 : _h.birthday) ? {
-        i: common_vendor.t(userInfo2.value.birthday)
+        e: userInfo2.value.nickname,
+        f: common_vendor.o(($event) => userInfo2.value.nickname = $event.detail.value),
+        g: ((_d = userInfo2.value) == null ? void 0 : _d.gender) === "男",
+        h: ((_e = userInfo2.value) == null ? void 0 : _e.gender) === "女",
+        i: (_f = userInfo2.value) == null ? void 0 : _f.birthday
+      }, ((_g = userInfo2.value) == null ? void 0 : _g.birthday) ? {
+        j: common_vendor.t(userInfo2.value.birthday)
       } : {}, {
-        j: /* @__PURE__ */ new Date(),
-        k: userInfo2.value.birthday,
-        l: (_i = userInfo2.value) == null ? void 0 : _i.fullLocation
-      }, ((_j = userInfo2.value) == null ? void 0 : _j.fullLocation) ? {
-        m: common_vendor.t(userInfo2.value.fullLocation)
+        k: /* @__PURE__ */ new Date(),
+        l: userInfo2.value.birthday,
+        m: (_h = userInfo2.value) == null ? void 0 : _h.fullLocation
+      }, ((_i = userInfo2.value) == null ? void 0 : _i.fullLocation) ? {
+        n: common_vendor.t(userInfo2.value.fullLocation)
       } : {}, {
-        n: userInfo2.value.fullLocation.split(" "),
-        o: userInfo2.value.profession
+        o: userInfo2.value.fullLocation.split(" "),
+        p: userInfo2.value.profession,
+        q: common_vendor.o(updataUserInfo)
       });
     };
   }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import{onLoad} from '@dcloudio/uni-app'
-import { getMemberProfileService } from '../../api/user';
+import { getMemberProfileService, updataUserInfoService } from '../../api/user';
 import { userInfo } from '../../types/user';
 import { ref } from 'vue';
 // 获取屏幕边界到安全区域距离
@@ -11,7 +11,7 @@ onLoad(()=>{
 })
 
 //获取用户信息
-const userInfo=ref<userInfo>()
+const userInfo=ref<userInfo>({} as userInfo)
 const getMemberProfile=async()=>{
 	const res=await getMemberProfileService()
 	console.log('获取用户信息接口返回',res)
@@ -35,6 +35,13 @@ const tapAvatar=()=>{
 			})
 		}
 	})
+}
+//修改用户信息
+const updataUserInfo=async()=>{
+	const res=await updataUserInfoService({
+		...userInfo.value
+	})
+	console.log('修改用户信息接口返回：',res)
 }
 </script>
 
@@ -62,7 +69,7 @@ const tapAvatar=()=>{
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
-          <input class="input" type="text" placeholder="请填写昵称" :value="userInfo?.nickname" />
+          <input class="input" type="text" placeholder="请填写昵称" v-model="userInfo.nickname" />
         </view>
         <view class="form-item">
           <text class="label">性别</text>
@@ -103,7 +110,7 @@ const tapAvatar=()=>{
         </view>
       </view>
       <!-- 提交按钮 -->
-      <button class="form-button">保 存</button>
+      <button class="form-button" @tap="updataUserInfo">保 存</button>
     </view>
   </view>
 </template>
