@@ -17,6 +17,25 @@ const getMemberProfile=async()=>{
 	console.log('获取用户信息接口返回',res)
 	userInfo.value=res.result
 }
+//换头像
+const tapAvatar=()=>{
+	uni.chooseImage({
+		count:1,
+		success:(res)=>{
+			console.log('选择成功',res)
+			console.log('选择的图片路径',res.tempFilePaths[0])
+			uni.uploadFile({
+				url:'/member/profile/avatar',
+				filePath:res.tempFilePaths[0],
+				name:'file',
+				success:(Tres)=>{
+					console.log('上传成功：',Tres)
+					userInfo.value.avatar=res.tempFilePaths[0]
+				}
+			})
+		}
+	})
+}
 </script>
 
 <template>
@@ -28,7 +47,7 @@ const getMemberProfile=async()=>{
     </view>
     <!-- 头像 -->
     <view class="avatar">
-      <view class="avatar-content">
+      <view class="avatar-content" @tap="tapAvatar">
         <image class="image" :src="userInfo?.avatar" mode="aspectFill" />
         <text class="text">点击修改头像</text>
       </view>
@@ -49,11 +68,11 @@ const getMemberProfile=async()=>{
           <text class="label">性别</text>
           <radio-group>
             <label class="radio">
-              <radio value="男" color="#27ba9b" :checked="userInfo.gender === '男'" />
+              <radio value="男" color="#27ba9b" :checked="userInfo?.gender === '男'" />
               男
             </label>
             <label class="radio">
-              <radio value="女" color="#27ba9b" :checked="userInfo.gender === '女'" />
+              <radio value="女" color="#27ba9b" :checked="userInfo?.gender === '女'" />
               女
             </label>
           </radio-group>
