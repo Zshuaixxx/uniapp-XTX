@@ -12,7 +12,8 @@
     {
       "root": "subpkg",
       "pages": [
-        "setting/setting"
+        "setting/setting",
+        "userInfo/userInfo"
       ]
     }
   ],

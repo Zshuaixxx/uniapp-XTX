@@ -34,7 +34,7 @@ const {
     <view class="profile" :style="{ paddingTop: safeAreaInsets!.top + 'px' }">
       <!-- 情况1：已登录 -->
       <view class="overview" v-if="hadLogin">
-        <navigator url="/pagesMember/profile/profile" hover-class="none">
+        <navigator url="/subpkg/userInfo/userInfo" hover-class="none">
           <image
             class="avatar"
             mode="aspectFill"
@@ -43,7 +43,7 @@ const {
         </navigator>
         <view class="meta">
           <view class="nickname"> {{UserStore.profile?.nikename || UserStore.profile?.id}} </view>
-          <navigator class="extra" url="pagesMember/profile/profile" hover-class="none">
+          <navigator class="extra" url="/subpkg/userInfo/userInfo" hover-class="none">
             <text class="update">更新头像昵称</text>
           </navigator>
         </view>

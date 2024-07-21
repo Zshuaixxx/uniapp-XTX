@@ -11,6 +11,7 @@ if (!Math) {
   "./pages/hot/hot.js";
   "./pages/goods/goods.js";
   "./subpkg/setting/setting.js";
+  "./subpkg/userInfo/userInfo.js";
 }
 const _sfc_main = {
   onLaunch: function() {

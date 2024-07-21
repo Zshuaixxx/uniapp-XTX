@@ -108,6 +108,14 @@
 					"style": {
 						"navigationBarTitleText": "设置"
 					}
+				},
+				{
+					"path" : "userInfo/userInfo",
+					"style" : 
+					{
+						"navigationStyle": "custom",
+						"navigationBarTitleText" : ""
+					}
 				}
 			]
 		}
