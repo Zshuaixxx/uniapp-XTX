@@ -13,5 +13,20 @@ const getAddressListService = () => {
     url: "/member/address"
   });
 };
+const updataAddressService = (id, data) => {
+  return utils_http.http({
+    method: "PUT",
+    url: `/member/address/${id}`,
+    data
+  });
+};
+const getAddressDetailService = (id) => {
+  return utils_http.http({
+    method: "GET",
+    url: `/member/address/${id}`
+  });
+};
 exports.addAddressService = addAddressService;
+exports.getAddressDetailService = getAddressDetailService;
 exports.getAddressListService = getAddressListService;
+exports.updataAddressService = updataAddressService;

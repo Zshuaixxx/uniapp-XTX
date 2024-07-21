@@ -41,8 +41,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       form.value.isDefault = e.detail.value ? 1 : 0;
     };
     const baocundizhi = async () => {
-      const res = await api_address.addAddressService(form.value);
-      console.log("新建地址接口返回：", res);
+      if (query.id) {
+        const res = api_address.updataAddressService(query.id, form.value);
+        console.log("修改地址接口返回：", res);
+      } else {
+        const res = await api_address.addAddressService(form.value);
+        console.log("新建地址接口返回：", res);
+      }
       common_vendor.index.showToast({
         icon: "success",
         title: "保存成功"
@@ -50,6 +55,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       setTimeout(() => {
         common_vendor.index.navigateBack();
       }, 300);
+    };
+    common_vendor.onLoad(() => {
+      getAddressDetail();
+    });
+    const getAddressDetail = async () => {
+      const res = await api_address.getAddressDetailService(query.id);
+      form.value = res.result;
     };
     return (_ctx, _cache) => {
       return common_vendor.e({

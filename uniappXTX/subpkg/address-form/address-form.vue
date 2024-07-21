@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { addAddressService } from '../../api/address';
-
+import { addAddressService, getAddressDetailService, updataAddressService } from '../../api/address';
+import{onLoad} from '@dcloudio/uni-app'
 // 表单数据
 const form = ref({
   receiver: '', // 收货人
@@ -21,6 +21,7 @@ uni.setNavigationBarTitle({
 	title:query.id ? '修改地址' : '添加地址'
 })
 
+//新建收货地址
 //选择地点
 const newLocal=(e)=>{
 	console.log(e)
@@ -36,8 +37,13 @@ const newDefault=(e)=>{
 }
 //保存并使用
 const baocundizhi=async()=>{
-	const res=await addAddressService(form.value)
-	console.log('新建地址接口返回：',res)
+	if(query.id){
+		const res=updataAddressService(query.id,form.value)
+		console.log('修改地址接口返回：',res)
+	}else{
+		const res=await addAddressService(form.value)
+		console.log('新建地址接口返回：',res)
+	}
 	uni.showToast({
 		icon:'success',
 		title:'保存成功'
@@ -45,6 +51,15 @@ const baocundizhi=async()=>{
 	setTimeout(()=>{
 		uni.navigateBack()
 	},300)
+}
+//修改收货地址
+//获取收货地址详情
+onLoad(()=>{
+	getAddressDetail()
+})
+const getAddressDetail=async()=>{
+	const res=await getAddressDetailService(query.id)
+	form.value=res.result
 }
 </script>
 

@@ -9,7 +9,7 @@ export type addAddressParam={
 	isDefault:number
 }
 
-//添加收货地址接口返回类型
+//添加收货地址接口返回类型 修改
 export type addAddressResult={
 	id:number
 }

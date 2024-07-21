@@ -20,7 +20,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         b: common_vendor.f(addressList.value, (item, k0, i0) => {
           return common_vendor.e({
             a: common_vendor.t(item.receiver),
-            b: common_vendor.t(item.receiver),
+            b: common_vendor.t(item.contact),
             c: item.isDefault
           }, item.isDefault ? {} : {}, {
             d: common_vendor.t(item.fullLocation),
