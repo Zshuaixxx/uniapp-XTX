@@ -3,6 +3,7 @@
 import { getMemberProfileService, updataUserInfoService } from '../../api/user';
 import { userInfo } from '../../types/user';
 import { ref } from 'vue';
+import { useUserStore } from '../../stores';
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
@@ -18,6 +19,7 @@ const getMemberProfile=async()=>{
 	userInfo.value=res.result
 }
 //换头像
+const userStore=useUserStore()
 const tapAvatar=()=>{
 	uni.chooseImage({
 		count:1,
@@ -31,17 +33,53 @@ const tapAvatar=()=>{
 				success:(Tres)=>{
 					console.log('上传成功：',Tres)
 					userInfo.value.avatar=res.tempFilePaths[0]
+					userStore.profile.avatar=res.tempFilePaths[0]
+					uni.navigateBack()
 				}
 			})
 		}
 	})
 }
 //修改用户信息
+let localNum:string[]=null
 const updataUserInfo=async()=>{
-	const res=await updataUserInfoService({
-		...userInfo.value
-	})
-	console.log('修改用户信息接口返回：',res)
+	if(localNum === null){
+		const res=await updataUserInfoService({
+			gender:userInfo.value.gender,
+			nickname:userInfo.value.nickname,
+			profession:userInfo.value.profession,
+			birthday:userInfo.value.birthday,
+		})
+		console.log('修改用户信息接口返回：',res)
+	}else{
+		const res=await updataUserInfoService({
+			gender:userInfo.value.gender,
+			nickname:userInfo.value.nickname,
+			profession:userInfo.value.profession,
+			birthday:userInfo.value.birthday,
+			provinceCode: localNum[0],
+			cityCode:  localNum[1],
+			countyCode:  localNum[2]
+		})
+		console.log('修改用户信息接口返回：',res)
+		
+	}
+	userStore.profile.nikename= userInfo.value.nickname
+	uni.navigateBack()
+}
+
+const sexChange=(e)=>{
+	console.log('选择性别：',e.detail.value)
+	userInfo.value.gender=e.detail.value
+}
+const birChangw=(e)=>{
+	console.log('选择生日：',e)
+	userInfo.value.birthday=e.detail.value
+}
+const loaclChange=(e)=>{
+	console.log('选择地区：',e)
+	userInfo.value.fullLocation=e.detail.value.join(' ')
+	localNum=e.detail.code
 }
 </script>
 
@@ -49,7 +87,7 @@ const updataUserInfo=async()=>{
   <view class="viewport">
     <!-- 导航栏 -->
     <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
-      <navigator open-type="navigateBack" class="back icon-left" hover-class="none"></navigator>
+      <navigator open-type="navigateBack" class="back icon-left" hover-class="none"> back </navigator>
       <view class="title">个人信息</view>
     </view>
     <!-- 头像 -->
@@ -73,7 +111,7 @@ const updataUserInfo=async()=>{
         </view>
         <view class="form-item">
           <text class="label">性别</text>
-          <radio-group>
+          <radio-group @change="sexChange">
             <label class="radio">
               <radio value="男" color="#27ba9b" :checked="userInfo?.gender === '男'" />
               男
@@ -92,6 +130,7 @@ const updataUserInfo=async()=>{
             start="1900-01-01"
             :end="new Date()"
             :value="userInfo.birthday"
+			@change="birChangw"
           >
             <view v-if="userInfo?.birthday">{{userInfo.birthday}}</view>
             <view class="placeholder" v-else>请选择日期</view>
@@ -99,14 +138,14 @@ const updataUserInfo=async()=>{
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" mode="region" :value="userInfo.fullLocation.split(' ')">
+          <picker class="picker" mode="region" :value="userInfo.fullLocation.split(' ')" @change="loaclChange">
             <view v-if="userInfo?.fullLocation">{{userInfo.fullLocation}}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">职业</text>
-          <input class="input" type="text" placeholder="请填写职业" :value="userInfo.profession" />
+          <input class="input" type="text" placeholder="请填写职业" v-model="userInfo.profession" />
         </view>
       </view>
       <!-- 提交按钮 -->
