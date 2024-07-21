@@ -13,7 +13,9 @@
       "root": "subpkg",
       "pages": [
         "setting/setting",
-        "userInfo/userInfo"
+        "userInfo/userInfo",
+        "address/address",
+        "address-form/address-form"
       ]
     }
   ],

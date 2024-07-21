@@ -21,7 +21,7 @@ export type LoginResultUserInfo={
 	id:number,
 	mobile:string,
 	token:string,
-	nikename:string | null,
+	nickname:string | null,
 	avatar:string,
 	account:string
 }

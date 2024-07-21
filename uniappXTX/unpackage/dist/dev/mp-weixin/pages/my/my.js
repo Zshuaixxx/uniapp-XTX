@@ -28,12 +28,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       lowFresh
     } = hooks_useGuessList.useGuessList();
     return (_ctx, _cache) => {
-      var _a, _b, _c;
+      var _a;
       return common_vendor.e({
         a: common_vendor.unref(hadLogin)
       }, common_vendor.unref(hadLogin) ? {
         b: (_a = common_vendor.unref(UserStore).profile) == null ? void 0 : _a.avatar,
-        c: common_vendor.t(((_b = common_vendor.unref(UserStore).profile) == null ? void 0 : _b.nikename) || ((_c = common_vendor.unref(UserStore).profile) == null ? void 0 : _c.id))
+        c: common_vendor.t(common_vendor.unref(UserStore).profile.nickname || common_vendor.unref(UserStore).profile.id)
       } : {}, {
         d: common_vendor.unref(safeAreaInsets).top + "px",
         e: common_vendor.f(orderTypes, (item, k0, i0) => {

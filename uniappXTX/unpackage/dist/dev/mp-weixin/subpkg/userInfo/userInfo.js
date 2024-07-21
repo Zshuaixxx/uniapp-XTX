@@ -59,7 +59,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         });
         console.log("修改用户信息接口返回：", res);
       }
-      userStore.profile.nikename = userInfo2.value.nickname;
+      userStore.profile.nickname = userInfo2.value.nickname;
       common_vendor.index.navigateBack();
     };
     const sexChange = (e) => {

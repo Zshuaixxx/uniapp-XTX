@@ -42,7 +42,7 @@ const {
           ></image>
         </navigator>
         <view class="meta">
-          <view class="nickname"> {{UserStore.profile?.nikename || UserStore.profile?.id}} </view>
+          <view class="nickname"> {{UserStore.profile.nickname || UserStore.profile.id}} </view>
           <navigator class="extra" url="/subpkg/userInfo/userInfo" hover-class="none">
             <text class="update">更新头像昵称</text>
           </navigator>

@@ -64,7 +64,7 @@ const updataUserInfo=async()=>{
 		console.log('修改用户信息接口返回：',res)
 		
 	}
-	userStore.profile.nikename= userInfo.value.nickname
+	userStore.profile.nickname= userInfo.value.nickname
 	uni.navigateBack()
 }
 

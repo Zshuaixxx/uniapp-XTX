@@ -116,6 +116,20 @@
 						"navigationStyle": "custom",
 						"navigationBarTitleText" : ""
 					}
+				},
+				{
+					"path" : "address/address",
+					"style" : 
+					{
+						"navigationBarTitleText" : ""
+					}
+				},
+				{
+					"path" : "address-form/address-form",
+					"style" : 
+					{
+						"navigationBarTitleText" : ""
+					}
 				}
 			]
 		}
