@@ -26,7 +26,14 @@ const getAddressDetailService = (id) => {
     url: `/member/address/${id}`
   });
 };
+const deleteAddressService = (id) => {
+  return utils_http.http({
+    method: "DELETE",
+    url: `/member/address/${id}`
+  });
+};
 exports.addAddressService = addAddressService;
+exports.deleteAddressService = deleteAddressService;
 exports.getAddressDetailService = getAddressDetailService;
 exports.getAddressListService = getAddressListService;
 exports.updataAddressService = updataAddressService;

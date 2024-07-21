@@ -1,7 +1,7 @@
 <script setup lang="ts">import { ref } from 'vue';
 import { addressItem } from '../../types/address';
 import { onShow } from '@dcloudio/uni-app';
-import { getAddressListService } from '../../api/address';
+import { deleteAddressService, getAddressListService } from '../../api/address';
 onShow(()=>{
 	getAddressList()
 })
@@ -12,6 +12,18 @@ const getAddressList=async()=>{
 	addressList.value=res.result
 	console.log('收货地址列表：',addressList.value)
 }
+const deleteAddress=(id:string)=>{
+	uni.showModal({
+		content:'请确认删除',
+		success:async(res)=>{
+			if(res.confirm){
+				const res=await deleteAddressService(id)
+				console.log('删除收货地址接口返回',res)
+				getAddressList()
+			}
+		}
+	})
+}
 </script>
 
 <template>
@@ -19,26 +31,31 @@ const getAddressList=async()=>{
     <!-- 地址列表 -->
     <scroll-view class="scroll-view" scroll-y>
       <view v-if="addressList.length > 0" class="address">
-        <view class="address-list">
+        <uni-swipe-action class="address-list">
           <!-- 收货地址项 -->
-          <view class="item" v-for="item in addressList">
-            <view class="item-content">
-              <view class="user">
-                {{item.receiver}}
-                <text class="contact">{{item.contact}}</text>
-                <text v-if="item.isDefault" class="badge">默认</text>
-              </view>
-              <view class="locate">{{item.fullLocation }} {{item.address}}</view>
-              <navigator
-                class="edit"
-                hover-class="none"
-                :url="`/subpkg/address-form/address-form?id=${item.id}`"
-              >
-                修改
-              </navigator>
-            </view>
-          </view>
-        </view>
+          <uni-swipe-action-item class="item" v-for="item in addressList">
+            <view>
+				<view class="item-content">
+				  <view class="user">
+				    {{item.receiver}}
+				    <text class="contact">{{item.contact}}</text>
+				    <text v-if="item.isDefault" class="badge">默认</text>
+				  </view>
+				  <view class="locate">{{item.fullLocation }} {{item.address}}</view>
+				  <navigator
+				    class="edit"
+				    hover-class="none"
+				    :url="`/subpkg/address-form/address-form?id=${item.id}`"
+				  >
+				    修改
+				  </navigator>
+				</view>
+			</view>
+			<template #right>
+				<buttom class="delete-button" @tap="deleteAddress(item.id)">删除</buttom>
+			</template>
+          </uni-swipe-action-item>
+        </uni-swipe-action>
       </view>
       <view v-else class="blank">暂无收货地址</view>
     </scroll-view>

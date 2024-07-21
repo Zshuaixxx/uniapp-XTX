@@ -33,3 +33,11 @@ export const getAddressDetailService=(id:string)=>{
 		url:`/member/address/${id}`
 	})
 }
+
+//删除收货地址
+export const deleteAddressService=(id:string)=>{
+	return http<addAddressResult>({
+		method:'DELETE',
+		url:`/member/address/${id}`
+	})
+}
